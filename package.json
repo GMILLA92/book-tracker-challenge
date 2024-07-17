@@ -59,5 +59,8 @@
   "bugs": {
     "url": "https://github.com/GMILLA92/digital-hub-challenge/issues"
   },
-  "homepage": "."
+  "homepage": ".",
+  "devDependencies": {
+    "@babel/plugin-proposal-private-property-in-object": "^7.21.11"
+  }
 }
