@@ -1,0 +1,23 @@
+// src/components/NavBar.tsx
+import React from 'react';
+import { Link } from 'react-router-dom';
+import { FaHome } from 'react-icons/fa';
+import { BiSolidBookHeart } from 'react-icons/bi';
+
+const NavBar: React.FC = () => {
+  return (
+    <nav className="bg-red-800 p-4">
+      <div className="container mx-auto flex justify-between">
+        <Link to="/" className="text-white font-bold text-xl flex items-center">
+          <FaHome className="mr-2" /> Home
+        </Link>
+        <Link to="/saved" className="text-white font-bold text-xl flex items-center">
+          <BiSolidBookHeart className="mr-2" /> Saved
+        </Link>
+      </div>
+    </nav>
+  );
+};
+
+export default NavBar;
+
