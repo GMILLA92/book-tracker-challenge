@@ -38,7 +38,7 @@ const BookTable: React.FC<BookTableProps> = ({
   return (
     <div className="table-container">
       <table className="table">
-        <thead>
+        <thead className="bg-primary text-white">
           <tr>
             <th className="text-center" onClick={() => handleSort('coverImage')}>Cover</th>
             <th onClick={() => handleSort('title')}>Title</th>
@@ -50,7 +50,7 @@ const BookTable: React.FC<BookTableProps> = ({
         </thead>
         <tbody>
           {books.map((book, index) => (
-            <tr key={index} onClick={() => onBookSelect(book)}>
+            <tr key={index} onClick={() => onBookSelect(book)} className="hover:bg-base transition duration-200">
               <td className="text-center">
                 <div className="img-container">
                   <img
@@ -59,10 +59,10 @@ const BookTable: React.FC<BookTableProps> = ({
                   />
                 </div>
               </td>
-              <td>{book.title}</td>
-              <td>{book.authors.join(', ')}</td>
-              <td>{book.publish_date}</td>
-              <td className="whitespace-normal break-words">{book.typeTopic}</td>
+              <td className="text-base">{book.title}</td>
+              <td className="text-base">{book.authors.join(', ')}</td>
+              <td className="text-base">{book.publish_date}</td>
+              <td className="whitespace-normal break-words text-base">{book.typeTopic}</td>
               <td
                 className="text-center"
                 onClick={e => {
@@ -71,9 +71,9 @@ const BookTable: React.FC<BookTableProps> = ({
                 }}
               >
                 {favoriteBooks.has(book.id) ? (
-                  <FaHeart className="favorite text-red-500" />
+                  <FaHeart className="favorite text-base" />
                 ) : (
-                  <FaRegHeart className="favorite text-gray-400" />
+                  <FaRegHeart className="favorite text-base" />
                 )}
               </td>
             </tr>
@@ -85,4 +85,3 @@ const BookTable: React.FC<BookTableProps> = ({
 };
 
 export default BookTable;
-

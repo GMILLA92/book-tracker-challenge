@@ -6,7 +6,7 @@ import { BiSolidBookHeart } from 'react-icons/bi';
 
 const NavBar: React.FC = () => {
   return (
-    <nav className="bg-sky-800 p-4">
+    <nav className="bg-primary p-4">
       <div className="container mx-auto flex justify-between">
         <Link to="/" className="text-white font-bold text-xl flex items-center">
           <FaHome className="mr-2" /> Home
