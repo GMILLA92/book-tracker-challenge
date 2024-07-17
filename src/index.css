@@ -21,3 +21,8 @@ code {
   width: 20px; /* Customize the width */
   height: 20px; /* Customize the height */
 }
+
+svg {
+  display: inline;
+  /* Other SVG specific styles */
+}
