@@ -88,7 +88,7 @@ const BookTable: React.FC<BookTableProps> = ({
   return (
     <div className='flex'>
       <FilterSidebar onFilterChange={setFilters} />
-      <div className='table-container'>
+     <div className='table-container'>
     <Search
       searchTerm={searchTerm}
       searchColumn={searchColumn}

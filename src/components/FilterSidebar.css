@@ -32,19 +32,20 @@
   margin-right: 10px;
   margin-left: 10px;
   border: 1px solid var(--color-gray-green); /* Using color variable */
-  padding: 2px;
-  height: 24px;
+  padding: 4px;
+  height: 27px;
   border-radius: var(--border-radius); /* Using border-radius variable */
-  font-size: 14px;
+  font-size: 15px;
 }
 
 .input-author {
     border: 1px solid var(--color-gray-green);
     border-radius: var(--border-radius);
     width: 127px;
-    font-size: 14px;
-    padding: 2px;
+    font-size: 15px;
+    padding: 4px;
     margin-left: 0px;
+    height: 32px;
 }
 
 .filter-section div {
