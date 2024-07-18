@@ -16,40 +16,46 @@ const subjects = [
   'Thriller',
   'Adventure',
   'Classic'
-] 
+];
 
 interface FilterSidebarProps {
-  onFilterChange: (filters: any) => void
+  onFilterChange: (filters: any) => void;
 }
 
 const FilterSidebar: React.FC<FilterSidebarProps> = ({ onFilterChange }) => {
-  const [selectedSubjects, setSelectedSubjects] = useState<string[]>([])
+  const [selectedSubjects, setSelectedSubjects] = useState<string[]>([]);
   const [yearRange, setYearRange] = useState<[number, number]>([
     1900,
     new Date().getFullYear()
-  ])
-  const [authorPrefix, setAuthorPrefix] = useState<string>('')
+  ]);
+  const [authorPrefix, setAuthorPrefix] = useState<string>('');
 
   const handleSubjectChange = (subject: string) => {
     setSelectedSubjects(prev =>
-      prev.includes(subject)
-        ? prev.filter(s => s !== subject)
-        : [...prev, subject]
-    )
-  }
+      prev.includes(subject) ? prev.filter(s => s !== subject) : [...prev, subject]
+    );
+  };
 
   const handleYearRangeChange = (
     event: React.ChangeEvent<HTMLInputElement>,
     index: number
   ) => {
-    const newRange = [...yearRange] as [number, number]
-    newRange[index] = parseInt(event.target.value, 10)
-    setYearRange(newRange)
-  }
+    const newRange = [...yearRange] as [number, number];
+    newRange[index] = parseInt(event.target.value, 10);
+    setYearRange(newRange);
+  };
 
   const handleFilterApply = () => {
-    onFilterChange({ subjects: selectedSubjects, yearRange, authorPrefix })
-  }
+    onFilterChange({ subjects: selectedSubjects, yearRange, authorPrefix });
+  };
+
+  const handleFilterReset = () => {
+    // Reset all filters to their default values
+    setSelectedSubjects([]);
+    setYearRange([1900, new Date().getFullYear()]);
+    setAuthorPrefix('');
+    onFilterChange({ subjects: [], yearRange: [1900, new Date().getFullYear()], authorPrefix: '' });
+  };
 
   return (
     <div className='filter-sidebar'>
@@ -101,8 +107,11 @@ const FilterSidebar: React.FC<FilterSidebarProps> = ({ onFilterChange }) => {
       <button className='button-filters' onClick={handleFilterApply}>
         Apply Filters
       </button>
+      <button className='button-filters' onClick={handleFilterReset} style={{ marginTop: "10px" }}>
+        Reset Filters
+      </button>
     </div>
-  )
-}
+  );
+};
 
-export default FilterSidebar
+export default FilterSidebar;
