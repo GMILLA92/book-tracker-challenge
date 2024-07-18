@@ -1,0 +1,67 @@
+/* src/components/FilterSidebar.css */
+.filter-sidebar {
+    position: sticky;
+    width: 308px;
+    top: 60px; /* Ensure unit is specified */
+    margin-top: 101px;
+    padding-right: 10px;
+    display: flex;
+    flex-direction: column;
+    overflow-y: auto;
+}
+
+.filter-section {
+  margin-bottom: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.filter-section h4 {
+  margin-bottom: 10px;
+  font-weight: 700;
+  color: var(--color-gray-green-strong); /* Using color variable */
+}
+
+.filter-section input[type='checkbox'] {
+  margin-right: 10px;
+}
+
+.filter-section input[type='number'], .input-author {
+  width: 60px; /* Adjust if necessary for .input-author */
+  margin-right: 10px;
+  margin-left: 10px;
+  border: 1px solid var(--color-gray-green); /* Using color variable */
+  padding: 2px;
+  height: 24px;
+  border-radius: var(--border-radius); /* Using border-radius variable */
+  font-size: 14px;
+}
+
+.input-author {
+    border: 1px solid var(--color-gray-green);
+    border-radius: var(--border-radius);
+    width: 127px;
+    font-size: 14px;
+    padding: 2px;
+    margin-left: 0px;
+}
+
+.filter-section div {
+  margin-bottom: 10px;
+}
+
+.button-filters {
+    padding: 10px 11px;
+    background-color: var(--color-gray-green-strong); /* Using color variable */
+    color: var(--color-white); /* Using color variable */
+    border: none;
+    border-radius: var(--border-radius); /* Using border-radius variable */
+    cursor: pointer;
+    margin-top: 40px;
+    width: 124px;
+}
+
+.button-filters:hover {
+  background-color: var(--color-grey-blue); /* Using color variable */
+}
