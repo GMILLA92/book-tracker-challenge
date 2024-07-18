@@ -106,7 +106,7 @@ const BookTable: React.FC<BookTableProps> = ({
         </thead>
         <tbody>
           {displayedBooks.map((book, index) => (
-            <tr key={index} onClick={() => onBookSelect(book)} className="hover:bg-base transition duration-200">
+            <tr key={index} onClick={() => onBookSelect(book)} className="transition duration-200">
               <td className="text-center">
                 <div className="img-container">
                   <img
