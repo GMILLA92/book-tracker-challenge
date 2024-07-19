@@ -5,6 +5,7 @@ import Search from './Search';
 import FilterSidebar from './FilterSideBar';
 import Pagination from './Pagination';
 import AddBookModal from './AddBookModal';
+import ConfirmationModal from './ConfirmationModal';
 import { BiSolidBookAdd } from 'react-icons/bi';
 import './BookTable.css';
 
@@ -34,6 +35,8 @@ const BookTable: React.FC<BookTableProps> = ({
     authorPrefix: '',
   });
   const [isAddBookModalOpen, setIsAddBookModalOpen] = useState(false);
+  const [isConfirmationModalOpen, setIsConfirmationModalOpen] = useState(false);
+  const [bookToDelete, setBookToDelete] = useState<Book | null>(null);
   const itemsPerPage = 5;
 
   const handleSort = (field: string) => {
@@ -99,6 +102,27 @@ const BookTable: React.FC<BookTableProps> = ({
     setIsAddBookModalOpen(false);
   };
 
+  const handleDeleteBook = (bookId: string) => {
+    setBooks((prevBooks) => prevBooks.filter((book) => book.id !== bookId));
+  };
+
+  const confirmDeleteBook = (book: Book) => {
+    if (favoriteBooks.has(book.id)) {
+      setBookToDelete(book);
+      setIsConfirmationModalOpen(true);
+    } else {
+      handleDeleteBook(book.id);
+    }
+  };
+
+  const handleConfirmDelete = () => {
+    if (bookToDelete) {
+      handleDeleteBook(bookToDelete.id);
+    }
+    setIsConfirmationModalOpen(false);
+    setBookToDelete(null);
+  };
+
   return (
     <div className="flex">
       <FilterSidebar onFilterChange={setFilters} />
@@ -121,6 +145,7 @@ const BookTable: React.FC<BookTableProps> = ({
               books={displayedBooks}
               onBookSelect={onBookSelect}
               toggleFavorite={toggleFavorite}
+              deleteBook={confirmDeleteBook} // Pass confirmDeleteBook function as a prop
               favoriteBooks={favoriteBooks}
               handleSort={handleSort}
               sortField={sortField}
@@ -144,9 +169,16 @@ const BookTable: React.FC<BookTableProps> = ({
             onAddBook={handleAddBook}
           />
         )}
+        <ConfirmationModal
+          isOpen={isConfirmationModalOpen}
+          onClose={() => setIsConfirmationModalOpen(false)}
+          onConfirm={handleConfirmDelete}
+          message="This book is part of your saved books. If you delete it from the table it will also be deleted from there. Are you sure you want to proceed?"
+        />
       </div>
     </div>
   );
 };
 
 export default BookTable;
+

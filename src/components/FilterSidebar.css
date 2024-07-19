@@ -20,7 +20,7 @@
 .filter-section h4 {
   margin-bottom: 10px;
   font-weight: 700;
-  color: var(--color-gray-green-strong); /* Using color variable */
+  color: var(--color-grey-blue-dark); /* Using color variable */
 }
 
 .filter-section input[type='checkbox'] {
