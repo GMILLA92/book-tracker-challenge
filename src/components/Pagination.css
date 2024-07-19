@@ -1,5 +1,6 @@
 .pagination-button {
-    width: 75px; /* Set a fixed width for pagination buttons */
-    padding: 3px 0; /* Adjust padding */
+    width: 90px;
+    padding: 8px 10px 8px 10px;
     text-align: center;
+    margin-top: 30px;
   }
