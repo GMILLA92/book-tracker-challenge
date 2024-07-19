@@ -1,93 +1,67 @@
-// src/context/BookContext.tsx
-import React, {
-  createContext,
-  useContext,
-  useState,
-  useEffect,
-  ReactNode
-} from 'react'
-import { fetchBooks } from '../services/bookService'
-import { Book } from '../types'
-import { filterSubjects } from '../utils/filterSubjects'
+import React, { createContext, useContext, useState, useEffect, ReactNode } from 'react';
+import { fetchBooks } from '../services/bookService';
+import { Book } from '../types';
 
 interface BookContextProps {
-  books: Book[]
-  favoriteBooks: Set<string>
-  toggleFavorite: (bookId: string) => void
-  isLoading: boolean
+  books: Book[];
+  setBooks: React.Dispatch<React.SetStateAction<Book[]>>;
+  favoriteBooks: Set<string>;
+  toggleFavorite: (bookId: string) => void;
+  isLoading: boolean;
 }
-
-const BookContext = createContext<BookContextProps | undefined>(undefined)
 
 interface BookProviderProps {
-  children: ReactNode
+  children: ReactNode;
 }
 
-// Path to the placeholder image in the public folder
-const placeholderImage = process.env.PUBLIC_URL + '/no-photo.png'
+const BookContext = createContext<BookContextProps | undefined>(undefined);
 
 export const BookProvider: React.FC<BookProviderProps> = ({ children }) => {
-  const [books, setBooks] = useState<Book[]>([])
-  const [favoriteBooks, setFavoriteBooks] = useState<Set<string>>(new Set())
-  const [isLoading, setIsLoading] = useState<boolean>(true) // Initialize isLoading
+  const [books, setBooks] = useState<Book[]>([]);
+  const [favoriteBooks, setFavoriteBooks] = useState<Set<string>>(new Set()); // Initialization for favoriteBooks
+  const [isLoading, setIsLoading] = useState(true);
 
+  // Define toggleFavorite function
   const toggleFavorite = (bookId: string) => {
-    setFavoriteBooks(prevFavorites => {
-      const newFavorites = new Set(prevFavorites)
-      if (newFavorites.has(bookId)) {
-        newFavorites.delete(bookId)
+    setFavoriteBooks(prev => {
+      const updatedFavorites = new Set(prev);
+      if (updatedFavorites.has(bookId)) {
+        updatedFavorites.delete(bookId);
       } else {
-        newFavorites.add(bookId)
+        updatedFavorites.add(bookId);
       }
-      return newFavorites
-    })
-  }
+      return updatedFavorites;
+    });
+  };
 
   useEffect(() => {
-    const isbnList = ['0451526538', '0140449132', '067978327X', '0201558025']
+    const isbnList = ['0451526538', '0140449132', '067978327X', '0201558025'];
     const fetchData = async () => {
       try {
-        setIsLoading(true) // Set loading to true before fetching data
-        const data = await fetchBooks(isbnList)
-        const bookArray = Object.keys(data).map(key => {
-          const subjects = data[key].subjects?.map(
-            (subject: any) => subject.name
-          ) || ['Unknown']
-          const filteredSubjects = filterSubjects(subjects)
-          return {
-            id: key,
-            title: data[key].title,
-            authors: data[key].authors?.map((author: any) => author.name) || [],
-            publish_date: data[key].publish_date,
-            description: data[key].notes || 'No description available.',
-            coverImage: data[key].cover?.medium || placeholderImage,
-            typeTopic: filteredSubjects.join(', ') || 'Uncategorized'
-          }
-        })
-        setBooks(bookArray)
+        const booksData = await fetchBooks(isbnList);
+        setBooks(booksData);
       } catch (error) {
-        console.error('Failed to fetch books:', error)
+        console.error('Failed to fetch books:', error);
       } finally {
-        setIsLoading(false) // Set loading to false after fetching data
+        setIsLoading(false);
       }
-    }
+    };
 
-    fetchData()
-  }, [])
+    fetchData();
+  }, []);
 
+  // Context provider value setup
   return (
-    <BookContext.Provider
-      value={{ books, favoriteBooks, toggleFavorite, isLoading }}
-    >
+    <BookContext.Provider value={{ books, setBooks, favoriteBooks, toggleFavorite, isLoading }}>
       {children}
     </BookContext.Provider>
-  )
-}
+  );
+};
 
 export const useBookContext = () => {
-  const context = useContext(BookContext)
-  if (context === undefined) {
-    throw new Error('useBookContext must be used within a BookProvider')
+  const context = useContext(BookContext);
+  if (!context) {
+    throw new Error('useBookContext must be used within a BookProvider');
   }
-  return context
-}
+  return context;
+};

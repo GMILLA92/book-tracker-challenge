@@ -1,41 +1,72 @@
-// src/components/Home.tsx
+import './Home.css';
 import React, { useState } from 'react';
 import BookTable from './BookTable';
-import BookDisplay from './BookDisplay';
-import Modal from './ModalBook';
+import ModalBook from './ModalBook';
+import AddBookModal from './AddBookModal'; // Import the AddBookModal
 import { useBookContext } from '../context/BookContext';
 import { Book } from '../types';
-import './Home.css'
+
+const placeholderImage = process.env.PUBLIC_URL + '/no-photo.png';
 
 const Home: React.FC = () => {
-  const { books, favoriteBooks, toggleFavorite, isLoading } = useBookContext();  // Assuming isLoading is part of the context
+  const { books, setBooks, favoriteBooks, toggleFavorite, isLoading } = useBookContext();
   const [selectedBook, setSelectedBook] = useState<Book | null>(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isAddBookModalOpen, setIsAddBookModalOpen] = useState(false); // State to control AddBookModal
 
   const handleBookSelect = (book: Book) => {
     setSelectedBook(book);
     setIsModalOpen(true);
   };
 
+  const handleAddBook = (newBook: Book) => {
+    setBooks(prevBooks => [...prevBooks, newBook]); // Update the books array with the new book
+    setIsAddBookModalOpen(false); // Close the add book modal
+  };
+
   if (isLoading) {
-    return <div className="lds-default"><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div></div>;  
+    return (
+      <div className='lds-default'>
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+      </div>
+    );
   }
 
   return (
-    <div className="container mx-auto p-4">
+    <div className='container mx-auto p-4'>
+ 
+      {/* Button to open the add book modal */}
       {books.length > 0 ? (
         <BookTable
           books={books}
+          setBooks={setBooks} // Pass setBooks here
           onBookSelect={handleBookSelect}
           toggleFavorite={toggleFavorite}
           favoriteBooks={favoriteBooks}
         />
       ) : (
-        <div>No books found.</div>  // Optional: Display a message if no books are available
+        <div>No books found.</div>
       )}
-      <Modal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)}>
-        {selectedBook && <BookDisplay book={selectedBook} />}
-      </Modal>
+      {isModalOpen && (
+        <ModalBook isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} book={selectedBook} />
+      )}
+      {isAddBookModalOpen && (
+        <AddBookModal // Render the AddBookModal
+          isOpen={isAddBookModalOpen}
+          onClose={() => setIsAddBookModalOpen(false)}
+          onAddBook={handleAddBook}
+        />
+      )}
     </div>
   );
 };

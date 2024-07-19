@@ -1,0 +1,113 @@
+.modal-book-list {
+  width: 100%;
+  overflow-y: auto; /* Allow scrolling within the list */
+  margin-top: 16px;
+}
+
+.modal-book-item {
+  padding: 8px;
+  border-bottom: 1px solid #ccc;
+  cursor: pointer;
+}
+
+.modal-book-item:hover {
+  background-color: #f0f0f0;
+}
+
+.example-queries h1 {
+  font-weight: 700;
+  color: var(--color-gray-green-strong);
+  margin-top: 10px;
+}
+.example-queries input {
+  border: 1px solid var(--color-gray-green-strong);
+  padding: 7px;
+  width: fit-content;
+  margin-right: 15px;
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
+
+label{
+  margin-top: 5px;
+  margin-bottom: 10px;
+}
+
+.query-examples h4{
+  margin-top: 42px;
+  margin-bottom: 2px;
+  font-weight: 600;
+  font-size: 14px;
+  color: black;
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+}
+.search-container input {
+  margin-top: 0px;
+}
+
+/* Ensure the search container and results list are properly aligned */
+.search-container {
+ display: flex;
+ flex-direction: row !important;
+}
+
+
+
+.search-container .search-button {
+  margin-left: -30px; /* Adjust based on icon size */
+}
+
+ul.results-dropdown {
+  position: absolute;
+  top: 48%;
+  left: 0;
+  right: 0;
+  margin-top: 4px;
+  border: 1px solid var(--color-gray-green);
+  padding: 4px;
+  border-radius: 6px;
+  background-color: white;
+  z-index: 1000;
+  margin-left: 1px; 
+  list-style: none;
+  /* max-height: 200px; */
+  overflow-y: auto;
+}
+
+ul.results-dropdown li {
+  padding: 8px;
+  cursor: pointer;
+}
+
+ul.results-dropdown li:hover {
+  background-color: var(--color-gray-green); /* Highlight on hover */
+}
+
+
+.search-button svg{
+  font-size: 24px;
+  color: var(--color-gray-green-strong);
+}
+
+.search-button svg:hover{
+  color: var(--color-grey-blue);
+}
+
+.example-queries div {
+  display: flex;
+  flex-direction: column;
+  align-content: center;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  border-bottom: 1px solid var(--color-gray-green);
+  border-top: 1px solid var(--color-gray-green);
+}
+
+ul{
+  margin-top: 14px;
+  margin-left: -27px;
+  border: 1px solid var(--color-gray-green);
+  padding: 10px;
+  border-radius: 6px;
+}
