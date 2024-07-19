@@ -21,10 +21,11 @@
 
 .modal-close {
   position: absolute;
-  top: 8px;
-  right: 8px;
-  color: gray;
+  top: -2px;
+  right: 13px;
+  color: var(--color-gray-green-strong);
   cursor: pointer;
+  font-size: 31px;
 }
 
 .modal-body {
@@ -41,6 +42,22 @@
   align-content: center;
   justify-content: center;
   align-items: center;
+}
+
+.modal-body select{
+  margin-top: 12px;
+    font-size: 16px;
+    font-weight: 700;
+    padding: 7px;
+    border-radius: 3px;
+}
+
+.modal-body input {
+  margin-top: 20px;
+  border: 1px solid var(--color-gray-green-strong);
+  padding: 7px;
+  border-radius: 11px;
+  width: 302px;
 }
 
 .modal-body div img {

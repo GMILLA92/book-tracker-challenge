@@ -5,6 +5,7 @@ import BookTableContent from './BookTableContent'
 import Search from './Search'
 import FilterSidebar from './FilterSideBar'
 import Pagination from './Pagination'
+import AddBookModal from './AddBookModal'
 import './BookTable.css'
 
 interface BookTableProps {
@@ -37,11 +38,16 @@ const BookTable: React.FC<BookTableProps> = ({
     setSortField(field)
     setSortOrder(order)
     books.sort((a, b) => {
-      if (a[field as keyof Book] < b[field as keyof Book]) {
-        return order === 'asc' ? -1 : 1
-      }
-      if (a[field as keyof Book] > b[field as keyof Book]) {
-        return order === 'asc' ? 1 : -1
+      const aValue = a[field as keyof Book]
+      const bValue = b[field as keyof Book]
+      if (aValue && bValue) {
+        // Ensure both values are defined
+        if (aValue < bValue) {
+          return order === 'asc' ? -1 : 1
+        }
+        if (aValue > bValue) {
+          return order === 'asc' ? 1 : -1
+        }
       }
       return 0
     })
@@ -88,34 +94,36 @@ const BookTable: React.FC<BookTableProps> = ({
   return (
     <div className='flex'>
       <FilterSidebar onFilterChange={setFilters} />
-     <div className='table-container'>
-    <Search
-      searchTerm={searchTerm}
-      searchColumn={searchColumn}
-      onSearchTermChange={setSearchTerm}
-      onSearchColumnChange={setSearchColumn}
-    />
-    {displayedBooks.length > 0 ? (
-      <>
-        <BookTableContent
-          books={displayedBooks}
-          onBookSelect={onBookSelect}
-          toggleFavorite={toggleFavorite}
-          favoriteBooks={favoriteBooks}
-          handleSort={handleSort}
-          sortField={sortField}
-          sortOrder={sortOrder}
+      <div className='table-container'>
+        <Search
+          searchTerm={searchTerm}
+          searchColumn={searchColumn}
+          onSearchTermChange={setSearchTerm}
+          onSearchColumnChange={setSearchColumn}
         />
-        <Pagination
-          currentPage={currentPage}
-          totalPages={totalPages}
-          onPageChange={setCurrentPage}
-        />
-      </>
-    ) : (
-      <div className="no-results">No results found. Please try with different filters.</div>
-    )}
-</div>
+        {displayedBooks.length > 0 ? (
+          <>
+            <BookTableContent
+              books={displayedBooks}
+              onBookSelect={onBookSelect}
+              toggleFavorite={toggleFavorite}
+              favoriteBooks={favoriteBooks}
+              handleSort={handleSort}
+              sortField={sortField}
+              sortOrder={sortOrder}
+            />
+            <Pagination
+              currentPage={currentPage}
+              totalPages={totalPages}
+              onPageChange={setCurrentPage}
+            />
+          </>
+        ) : (
+          <div className='no-results'>
+            No results found. Please try with different filters.
+          </div>
+        )}
+      </div>
     </div>
   )
 }
