@@ -1,13 +1,12 @@
-// src/components/BookTableContent.tsx
-import React from 'react'
-import { Book } from '../types'
+import React, { useEffect } from 'react';
+import { Book } from '../types';
 import {
-  FaHeart,
-  FaRegHeart,
+  FaStar,
+  FaRegStar,
   FaSort,
   FaSortUp,
   FaSortDown
-} from 'react-icons/fa'
+} from 'react-icons/fa';
 
 interface BookTableContentProps {
   books: Book[]
@@ -34,6 +33,9 @@ const BookTableContent: React.FC<BookTableContentProps> = ({
     }
     return <FaSort />
   }
+  useEffect(() => {
+    console.log(books)
+  }, []);
 
   return (
     <>
@@ -75,7 +77,6 @@ const BookTableContent: React.FC<BookTableContentProps> = ({
           <tr
             key={index}
             onClick={() => onBookSelect(book)}
-            className='transition duration-200'
           >
             <td className='text-center'>
               <div className='img-container'>
@@ -102,18 +103,18 @@ const BookTableContent: React.FC<BookTableContentProps> = ({
               }}
             >
               {favoriteBooks.has(book.id) ? (
-                <FaHeart className='favorite text-base' />
+                <FaStar className='favorite text-base' />
               ) : (
-                <FaRegHeart className='favorite text-base' />
+                <FaRegStar className='favorite text-base' />
               )}
             </td>
           </tr>
         ))}
       </tbody>
     </table>}
-    {books.length ===0 && <div>No results found. Please try with different filters.</div>}
+    {books.length === 0 && <div>No results found. Please try with different filters.</div>}
     </>
   )
 }
 
-export default BookTableContent
+export default BookTableContent;

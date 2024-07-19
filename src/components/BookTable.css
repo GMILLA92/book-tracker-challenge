@@ -1,68 +1,120 @@
 /* src/components/BookTable.css */
 
-  
-  .table-container {
-    overflow-x: auto;
-    min-width: 600px; /* Adjust based on your layout needs */
-    width: 100%;
-  }
-  
-  .table {
-    min-width: 100%;
-    background-color: var(--color-white);
-    border: 1px solid var(--color-gray-white);
-    box-shadow: var(--box-shadow);
-    border-radius: var(--border-radius);
-    margin-top: 40px;
-  }
-  
-  .table thead {
-    background-color: var(--color-gray-green);
-  }
-  
-  .table th,
-  .table td {
-    padding: var(--padding);
-    border-bottom: 1px solid var(--color-gray-white);
-    text-align: left;
-    vertical-align: middle;
-  }
-  
-  .table th {
-    color: var(--color-gray-600);
-    font-weight: 600;
-  }
-  
-  .table th.text-center,
-  .table td.text-center {
-    text-align: center;
-  }
-  
-  tbody tr:hover {
-    background-color: var(--color-gray-green-strong);
-    transition: background-color var(--transition-duration);
-  }
-  
-  .table img {
-    max-height: var(--img-max-height);
-    max-width: 100%;
-    object-fit: contain;
-  }
-  
-  .table .img-container {
-    height: var(--img-height);
-    width: var(--img-height);
-    margin: 0 auto;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
-  
-  .table .favorite {
-    cursor: pointer;
-  }
-  
+.table-container {
+  overflow-x: auto;
+  min-width: 600px; /* Adjust based on your layout needs */
+  width: 100%;
+}
 
-  .publish-date-column {
-    width: 160px;
+.table {
+  min-width: 100%;
+  background-color: var(--color-white);
+  border: 1px solid var(--color-gray-white);
+  box-shadow: var(--box-shadow);
+  border-radius: var(--border-radius);
+  margin-top: 40px;
+}
+
+.table thead {
+  background-color: var(--color-gray-green);
+}
+
+.table th,
+.table td {
+  padding: var(--padding);
+  border-bottom: 1px solid var(--color-gray-white);
+  text-align: left;
+  vertical-align: middle;
+}
+
+.table th {
+  color: var(--color-gray-600);
+  font-weight: 600;
+}
+
+.table th.text-center,
+.table td.text-center {
+  text-align: center;
+}
+
+.text-center svg {
+  font-size: 16px;
+}
+
+tbody tr:hover {
+  background-color: var(--color-gray-green-strong);
+  transition: background-color var(--transition-duration);
+}
+
+.table img {
+  max-height: var(--img-max-height);
+  max-width: 100%;
+  object-fit: contain;
+}
+
+.table .img-container {
+  height: var(--img-height);
+  width: var(--img-height);
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.table .favorite {
+  cursor: pointer;
+}
+
+.publish-date-column {
+  width: 160px;
+}
+
+.add-book-button {
+  float: right;
+  margin-bottom: 10px;
+}
+
+.add-book-button svg {
+  font-size: 30px;
+  /* color: var(--color-grey-blue); */
+  color: var(--color-grey-blue-dark);
+  margin-left: 44px;
+}
+
+.add-book-button svg:hover {
+  color: var(--color-gray-green-strong);
+}
+
+@keyframes bounceInUp {
+  0% {
+    opacity: 0;
+    transform: translateY(100%);
   }
+  60% {
+    opacity: 1;
+    transform: translateY(-10%);
+  }
+  80% {
+    transform: translateY(5%);
+  }
+  100% {
+    transform: translateY(0);
+  }
+}
+
+.no-results {
+  text-align: center;
+  color: #ff6347; /* Tomato color */
+  font-size: 18px;
+  font-weight: bold;
+  margin-top: 100px;
+  animation: bounceInUp 1s ease-in-out;
+}
+
+.no-results p {
+  background-color: #fff3cd; /* Light yellow background */
+  border: 1px solid #ffeeba; /* Light yellow border */
+  padding: 10px 20px;
+  border-radius: 5px;
+  display: inline-block;
+}

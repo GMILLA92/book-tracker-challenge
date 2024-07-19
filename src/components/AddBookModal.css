@@ -45,17 +45,48 @@ label{
   margin-top: 0px;
 }
 
+/* Ensure the search container and results list are properly aligned */
 .search-container {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-direction: row !important;
+ display: flex;
+ flex-direction: row !important;
 }
+
+
+
+.search-container .search-button {
+  margin-left: -30px; /* Adjust based on icon size */
+}
+
+ul.results-dropdown {
+  position: absolute;
+  top: 48%;
+  left: 0;
+  right: 0;
+  margin-top: 4px;
+  border: 1px solid var(--color-gray-green);
+  padding: 4px;
+  border-radius: 6px;
+  background-color: white;
+  z-index: 1000;
+  margin-left: 1px; 
+  list-style: none;
+  /* max-height: 200px; */
+  overflow-y: auto;
+}
+
+ul.results-dropdown li {
+  padding: 8px;
+  cursor: pointer;
+}
+
+ul.results-dropdown li:hover {
+  background-color: var(--color-gray-green); /* Highlight on hover */
+}
+
 
 .search-button svg{
   font-size: 24px;
   color: var(--color-gray-green-strong);
-  margin-left: 10px;
 }
 
 .search-button svg:hover{

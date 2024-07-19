@@ -45,6 +45,7 @@ export const fetchBooks = async (isbnList: string[]) => {
 
     return {
       id: key,
+      isbn: isbn,
       title: details.title || data.title,
       authors: details.authors?.map((author: { name: any }) => author.name) || data.authors?.map((author: { name: any }) => author.name) || ['Unknown'],
       publish_date: details.publish_date || data.publish_date,

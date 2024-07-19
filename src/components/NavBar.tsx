@@ -1,8 +1,7 @@
-// src/components/NavBar.tsx
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { FaHome } from 'react-icons/fa';
-import { BiSolidBookHeart } from 'react-icons/bi';
+import { BsBookmarkStarFill } from 'react-icons/bs';
 
 const NavBar: React.FC = () => {
   return (
@@ -12,7 +11,7 @@ const NavBar: React.FC = () => {
           <FaHome className="mr-2" /> Home
         </Link>
         <Link to="/saved" className="text-white font-bold text-xl flex items-center">
-          <BiSolidBookHeart className="mr-2" /> Saved
+          <BsBookmarkStarFill className="mr-2" /> Saved
         </Link>
       </div>
     </nav>
@@ -20,4 +19,3 @@ const NavBar: React.FC = () => {
 };
 
 export default NavBar;
-
