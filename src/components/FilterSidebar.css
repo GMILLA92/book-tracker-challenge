@@ -53,6 +53,15 @@
   font-weight: normal;
 }
 
+.filter-section div {
+  margin-top: 5px;
+  margin-bottom: 5px;
+}
+
+.filter-section input{
+  margin-top: 10px;
+}
+
 .input-author {
   border: 1px solid var(--color-gray-green);
   border-radius: var(--border-radius);
@@ -61,6 +70,7 @@
   padding: 4px;
   margin-left: 0px;
   height: 32px;
+  font-weight: normal;
 }
 
 .filter-section,
@@ -118,6 +128,7 @@
     padding: 4px;
     height: 32px;
     margin-top: 10px;
+    font-weight: normal;
   }
 
   .filter-section-1 {
@@ -143,11 +154,6 @@
 
   .filter-section input[type='checkbox'] {
     margin-right: 3px;
-  }
-
-  .filter-section div {
-    margin-top: 10px;
-    margin-bottom: 10px;
   }
 
   .label-years {
@@ -233,7 +239,7 @@
     border-radius: var(--border-radius);
     padding: 10px;
     margin-bottom: 10px;
-    background-color: var(--color-white);
+    background-color: var(--color-gray-white);
   }
 
   .card img {

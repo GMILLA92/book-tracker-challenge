@@ -25,7 +25,21 @@
   opacity: 1;
 }
 
-.icon-navbar {
+.icon-navbar-saved {
   font-size: 32px;
   margin: 10px;
+  margin-right: 14px;
+}
+
+
+
+.icon-navbar-home{
+    font-size: 33px;
+    margin: 10px;
+    margin-left: 18px;
+}
+
+
+.icon-navbar-home,.icon-navbar-saved:hover{
+    color: var(--color-gray-white);
 }
