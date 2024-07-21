@@ -1,7 +1,6 @@
-// src/components/Pagination.tsx
 import React from 'react';
-import './Pagination.css'; // Import the CSS file for pagination
-import './BookTable.css'
+import './Pagination.css'; // Ensure you import the CSS file
+
 interface PaginationProps {
   currentPage: number;
   totalPages: number;
@@ -11,41 +10,41 @@ interface PaginationProps {
 const Pagination: React.FC<PaginationProps> = ({
   currentPage,
   totalPages,
-  onPageChange
+  onPageChange,
 }) => {
-  const handleNextPage = () => {
-    if (currentPage < totalPages) {
-      onPageChange(currentPage + 1);
-    }
-  };
-
-  const handlePreviousPage = () => {
+  const handlePrevious = () => {
     if (currentPage > 1) {
       onPageChange(currentPage - 1);
     }
   };
 
+  const handleNext = () => {
+    if (currentPage < totalPages) {
+      onPageChange(currentPage + 1);
+    }
+  };
+
   return (
-    <div className="pagination flex justify-center items-center mt-4">
+    <div className="pagination-container">
       <button
-        className="pagination-button bg-secondary text-white rounded mr-2"
-        onClick={handlePreviousPage}
+        className="pagination-button"
+        onClick={handlePrevious}
         disabled={currentPage === 1}
       >
         Previous
       </button>
-      {Array.from({ length: totalPages }, (_, index) => (
+      {[...Array(totalPages)].map((_, index) => (
         <button
           key={index}
-          className={`pagination-button bg-secondary text-white rounded mx-1 ${currentPage === index + 1 ? 'bg-accent' : ''}`}
+          className={`pagination-button ${currentPage === index + 1 ? 'active' : ''}`}
           onClick={() => onPageChange(index + 1)}
         >
           {index + 1}
         </button>
       ))}
       <button
-        className="pagination-button bg-secondary text-white rounded ml-2"
-        onClick={handleNextPage}
+        className="pagination-button"
+        onClick={handleNext}
         disabled={currentPage === totalPages}
       >
         Next
@@ -55,3 +54,4 @@ const Pagination: React.FC<PaginationProps> = ({
 };
 
 export default Pagination;
+

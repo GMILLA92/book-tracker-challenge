@@ -1,6 +1,5 @@
-// src/components/FilterSidebar.tsx
-import React, { useState } from 'react'
-import './FilterSidebar.css'
+import React, { useState } from 'react';
+import './FilterSidebar.css';
 
 const subjects = [
   'Fiction',
@@ -59,7 +58,7 @@ const FilterSidebar: React.FC<FilterSidebarProps> = ({ onFilterChange }) => {
 
   return (
     <div className='filter-sidebar'>
-      <div className='filter-section'>
+      <div className='filter-section-1'>
         <h4>Type of Book</h4>
         {subjects.map(subject => (
           <div key={subject}>
@@ -69,14 +68,15 @@ const FilterSidebar: React.FC<FilterSidebarProps> = ({ onFilterChange }) => {
               checked={selectedSubjects.includes(subject)}
               onChange={() => handleSubjectChange(subject)}
             />
-            <label htmlFor={subject}>{subject}</label>
+            <label className="label-filters" htmlFor={subject}>{subject}</label>
           </div>
         ))}
       </div>
+      <div className='separator'></div>
       <div className='filter-section'>
         <h4>Year Range</h4>
         <div>
-          <label htmlFor='start-year'>From:</label>
+          <label className="label-years" htmlFor='start-year'>From:</label>
           <input
             type='number'
             id='start-year'
@@ -85,7 +85,7 @@ const FilterSidebar: React.FC<FilterSidebarProps> = ({ onFilterChange }) => {
           />
         </div>
         <div>
-          <label htmlFor='end-year'>To:</label>
+          <label className="label-years" htmlFor='end-year'>To:</label>
           <input
             type='number'
             id='end-year'
@@ -94,6 +94,7 @@ const FilterSidebar: React.FC<FilterSidebarProps> = ({ onFilterChange }) => {
           />
         </div>
       </div>
+      <div className='separator'></div>
       <div className='filter-section'>
         <h4>Author</h4>
         <input
@@ -104,12 +105,15 @@ const FilterSidebar: React.FC<FilterSidebarProps> = ({ onFilterChange }) => {
           onChange={e => setAuthorPrefix(e.target.value)}
         />
       </div>
-      <button className='button-filters' onClick={handleFilterApply}>
-        Apply Filters
-      </button>
-      <button className='button-filters' onClick={handleFilterReset} style={{ marginTop: "10px" }}>
-        Reset Filters
-      </button>
+      <div className='separator'></div>
+      <div className='filter-section-buttons'>
+        <button className='button-filters' onClick={handleFilterApply}>
+          Apply Filters
+        </button>
+        <button className='button-filters' onClick={handleFilterReset} style={{ marginTop: '10px' }}>
+          Reset Filters
+        </button>
+      </div>
     </div>
   );
 };

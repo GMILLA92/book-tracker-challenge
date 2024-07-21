@@ -1,0 +1,31 @@
+.container-nav {
+  display: flex;
+  justify-content: space-between;
+}
+
+.tooltip-container .tooltip-text {
+  visibility: hidden;
+  background-color: var(--color-grey-blue-dark);
+  color: #fff;
+  text-align: center;
+  border-radius: 5px;
+  padding: 5px 5px;
+  height: 40px;
+  z-index: 1;
+  top: 80%; /* Position the tooltip above the icon */
+  left: 50%;
+  margin-left: -60px; /* Center the tooltip */
+  opacity: 0;
+  transition: opacity 0.3s;
+  font-size: 12px;
+}
+
+.tooltip-container:hover .tooltip-text {
+  visibility: visible;
+  opacity: 1;
+}
+
+.icon-navbar {
+  font-size: 32px;
+  margin: 10px;
+}

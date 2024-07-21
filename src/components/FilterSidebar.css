@@ -1,68 +1,278 @@
-/* src/components/FilterSidebar.css */
+/* General Styles */
 .filter-sidebar {
-    position: sticky;
-    width: 308px;
-    top: 60px; /* Ensure unit is specified */
-    margin-top: 101px;
-    padding-right: 10px;
-    display: flex;
-    flex-direction: column;
-    overflow-y: auto;
+  position: sticky;
+  width: 308px;
+  top: 60px; /* Ensure unit is specified */
+  margin-top: 101px;
+  padding-right: 10px;
+  display: flex;
+  flex-direction: column;
+  overflow-y: auto;
 }
 
-.filter-section {
+.label-filters {
+  margin-top: 0px;
+  margin-bottom: 0px;
+}
+
+.filter-section,
+.filter-section-1 {
   margin-bottom: 20px;
   display: flex;
   flex-direction: column;
   align-items: flex-start;
 }
 
-.filter-section h4 {
-  margin-bottom: 10px;
+.filter-section,
+.filter-section-1 h4 {
+  margin-bottom: 8px;
   font-weight: 700;
   color: var(--color-grey-blue-dark); /* Using color variable */
 }
 
-.filter-section input[type='checkbox'] {
+.filter-section,
+.filter-section-1 input[type='checkbox'] {
   margin-right: 10px;
 }
 
-.filter-section input[type='number'], .input-author {
-  width: 60px; /* Adjust if necessary for .input-author */
+.button-filters{
+  margin-right: 4px;
+  margin-left: 4px;
+}
+
+.filter-section input[type='number'] {
+  width: 60px;
   margin-right: 10px;
   margin-left: 10px;
-  border: 1px solid var(--color-gray-green); /* Using color variable */
+  border: 1px solid var(--color-gray-green);
   padding: 4px;
   height: 27px;
-  border-radius: var(--border-radius); /* Using border-radius variable */
+  border-radius: var(--border-radius);
   font-size: 15px;
+  color: black;
+  font-weight: normal;
 }
 
 .input-author {
+  border: 1px solid var(--color-gray-green);
+  border-radius: var(--border-radius);
+  width: 127px;
+  font-size: 15px;
+  padding: 4px;
+  margin-left: 0px;
+  height: 32px;
+}
+
+.filter-section,
+.filter-section-1 div {
+  margin-bottom: 10px;
+}
+
+.label-years {
+  color: black;
+}
+
+.button-filters {
+  padding: 10px 11px;
+  background-color: var(--color-gray-green-strong); /* Using color variable */
+  color: var(--color-white); /* Using color variable */
+  border: none;
+  border-radius: var(--border-radius); /* Using border-radius variable */
+  cursor: pointer;
+  margin-top: 40px;
+  width: 124px;
+}
+
+.button-filters:hover {
+  background-color: var(--color-grey-blue); /* Using color variable */
+}
+
+.separator {
+  border-bottom: 2px solid var(--color-gray-white);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  margin: 20px 0;
+}
+
+.filter-section-1 {
+  margin-bottom: 0px;
+}
+/* Medium screens (750px - 1300px) */
+@media (min-width: 750px) and (max-width: 1200px) {
+  .filter-sidebar {
+    position: relative;
+    width: 100%;
+    margin-top: 0;
+    padding: 10px;
+    background-color: var(--color-gray-white);
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    flex-wrap: wrap;
+  }
+
+  .input-author {
     border: 1px solid var(--color-gray-green);
     border-radius: var(--border-radius);
     width: 127px;
     font-size: 15px;
     padding: 4px;
-    margin-left: 0px;
     height: 32px;
-}
+    margin-top: 10px;
+  }
 
-.filter-section div {
-  margin-bottom: 10px;
-}
+  .filter-section-1 {
+    flex-direction: row;
+    align-items: center;
+    margin-bottom: 10px;
+    display: flex;
+    flex-wrap: wrap;
+    column-count: 4;
+    max-width: 525px;
+  }
 
-.button-filters {
-    padding: 10px 11px;
-    background-color: var(--color-gray-green-strong); /* Using color variable */
-    color: var(--color-white); /* Using color variable */
+  .filter-section h4 {
+    margin-bottom: 0px;
+  }
+
+  .filter-section-1 div {
+    margin-top: 11px;
+    display: flex;
+    margin-left: 10px;
+    margin-bottom: 17px;
+  }
+
+  .filter-section input[type='checkbox'] {
+    margin-right: 3px;
+  }
+
+  .filter-section div {
+    margin-top: 10px;
+    margin-bottom: 10px;
+  }
+
+  .label-years {
+    margin-top: 0px;
+    margin-bottom: 0px;
+  }
+
+  .button-filters {
+    padding: 8px 10px;
+    background-color: var(--color-gray-green-strong);
+    color: var(--color-white);
     border: none;
-    border-radius: var(--border-radius); /* Using border-radius variable */
+    border-radius: var(--border-radius);
     cursor: pointer;
-    margin-top: 40px;
+    margin-top: 10px;
+    margin-bottom: 10px;
     width: 124px;
+    margin-right: 5px;
+    margin-left: 5px;
+    font-size: 15px;
+  }
 }
 
-.button-filters:hover {
-  background-color: var(--color-grey-blue); /* Using color variable */
+/* Small screens (less than 750px) */
+@media (max-width: 750px) {
+  .filter-sidebar {
+    position: relative;
+    width: 100%;
+    margin-top: 0;
+    padding: 10px;
+    background-color: var(--color-gray-white);
+    display: flex;
+    flex-direction: column;
+  }
+
+  .table-container{
+    margin-top: 70px;
+  }
+
+  .filter-section {
+    flex-direction: row;
+    align-items: center;
+    margin-bottom: 10px;
+    margin-top: 10px;
+  }
+
+  .filter-section h4{
+    margin-right: 40px;
+    width: 100px;
+    display: flex;
+  }
+
+  .filter-section-1 {
+    flex-direction: row;
+    align-items: center;
+    display: flex;
+    flex-wrap: wrap;
+    column-count: 4;
+    max-width: 525px;
+  }
+
+  .filter-section-1 div {
+    margin-top: 11px;
+    display: flex;
+    margin-left: 10px;
+    margin-bottom: 17px;
+  }
+
+  .cards-container {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .separator{
+    margin: 10px 0px;
+  }
+
+  .card {
+    display: flex;
+    align-items: center;
+    border: 1px solid var(--color-gray-white);
+    box-shadow: var(--box-shadow);
+    border-radius: var(--border-radius);
+    padding: 10px;
+    margin-bottom: 10px;
+    background-color: var(--color-white);
+  }
+
+  .card img {
+    max-width: 100px;
+    margin-right: 10px;
+  }
+
+  .card-content {
+    flex-grow: 1;
+    padding: 10px;
+  }
+
+  .card-content h3{
+    font-weight: 700;
+  }
+
+  .card-actions {
+    margin-left: auto;
+  }
+
+  .card .three-dots {
+    cursor: pointer;
+    font-size: 20px;
+    margin-left: auto;
+  }
+}
+
+@media (max-width: 500px) {
+  .card {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .card img {
+    max-width: 100%;
+    margin-bottom: 10px;
+  }
+
+  .card-content {
+    width: 100%;
+  }
 }
