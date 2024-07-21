@@ -35,7 +35,7 @@
   margin-right: 10px;
 }
 
-.button-filters{
+.button-filters {
   margin-right: 4px;
   margin-left: 4px;
 }
@@ -58,8 +58,16 @@
   margin-bottom: 5px;
 }
 
-.filter-section input{
+.filter-section input {
   margin-top: 10px;
+}
+
+.filter-section-buttons {
+  display: flex;
+  justify-content: flex-start;
+  align-items: flex-start;
+  align-content: center;
+  flex-direction: column;
 }
 
 .input-author {
@@ -118,6 +126,14 @@
     flex-direction: row;
     justify-content: space-around;
     flex-wrap: wrap;
+  }
+
+  .filter-section-buttons {
+    display: flex;
+    justify-content: flex-start;
+    align-items: flex-start;
+    align-content: center;
+    flex-direction: row;
   }
 
   .input-author {
@@ -189,7 +205,20 @@
     flex-direction: column;
   }
 
-  .table-container{
+  .button-filters {
+    margin-top: 0px !important;
+    margin-bottom: 0px;
+  }
+
+  .filter-section-buttons {
+    display: flex;
+   justify-content: flex-end;
+    align-items: flex-start;
+    align-content: center;
+    flex-direction: row;
+  }
+
+  .table-container {
     margin-top: 70px;
   }
 
@@ -200,8 +229,8 @@
     margin-top: 10px;
   }
 
-  .filter-section h4{
-    margin-right: 40px;
+  .filter-section h4 {
+    margin-right: 19px;
     width: 100px;
     display: flex;
   }
@@ -227,7 +256,7 @@
     flex-direction: column;
   }
 
-  .separator{
+  .separator {
     margin: 10px 0px;
   }
 
@@ -252,7 +281,7 @@
     padding: 10px;
   }
 
-  .card-content h3{
+  .card-content h3 {
     font-weight: 700;
   }
 

@@ -1,20 +1,20 @@
-import React, { useState } from 'react'
-import { Book } from '../types'
-import BookTableContent from './BookTableContent'
-import Search from './Search'
-import FilterSidebar from './FilterSideBar'
-import Pagination from './Pagination'
-import AddBookModal from './AddBookModal'
-import ConfirmationModal from './ConfirmationModal'
-import { BiSolidBookAdd } from 'react-icons/bi'
-import './BookTable.css'
+import React, { useState, useEffect } from 'react';
+import { Book } from '../types';
+import BookTableContent from './BookTableContent';
+import Search from './Search';
+import FilterSidebar from './FilterSideBar';
+import Pagination from './Pagination';
+import AddBookModal from './AddBookModal';
+import ConfirmationModal from './ConfirmationModal';
+import { BiSolidBookAdd } from 'react-icons/bi';
+import './BookTable.css';
 
 interface BookTableProps {
-  books: Book[]
-  onBookSelect: (book: Book) => void
-  toggleFavorite: (bookId: string) => void
-  favoriteBooks: Set<string>
-  setBooks: React.Dispatch<React.SetStateAction<Book[]>>
+  books: Book[];
+  onBookSelect: (book: Book) => void;
+  toggleFavorite: (bookId: string) => void;
+  favoriteBooks: Set<string>;
+  setBooks: React.Dispatch<React.SetStateAction<Book[]>>;
 }
 
 const BookTable: React.FC<BookTableProps> = ({
@@ -22,106 +22,148 @@ const BookTable: React.FC<BookTableProps> = ({
   onBookSelect,
   toggleFavorite,
   favoriteBooks,
-  setBooks
+  setBooks,
 }) => {
-  const [sortField, setSortField] = useState<string | null>(null)
-  const [sortOrder, setSortOrder] = useState<'asc' | 'desc'>('asc')
-  const [currentPage, setCurrentPage] = useState<number>(1)
-  const [searchTerm, setSearchTerm] = useState<string>('')
-  const [searchColumn, setSearchColumn] = useState<string>('all')
+  const [sortField, setSortField] = useState<string | null>(null);
+  const [sortOrder, setSortOrder] = useState<'asc' | 'desc'>('asc');
+  const [currentPage, setCurrentPage] = useState<number>(1);
+  const [searchTerm, setSearchTerm] = useState<string>('');
+  const [searchColumn, setSearchColumn] = useState<string>('all');
   const [filters, setFilters] = useState<any>({
     subjects: [],
     yearRange: [1900, new Date().getFullYear()],
-    authorPrefix: ''
-  })
-  const [isAddBookModalOpen, setIsAddBookModalOpen] = useState(false)
-  const [isConfirmationModalOpen, setIsConfirmationModalOpen] = useState(false)
-  const [bookToDelete, setBookToDelete] = useState<Book | null>(null)
-  const itemsPerPage = 5
+    authorPrefix: '',
+  });
+  const [isAddBookModalOpen, setIsAddBookModalOpen] = useState(false);
+  const [isConfirmationModalOpen, setIsConfirmationModalOpen] = useState(false);
+  const [bookToDelete, setBookToDelete] = useState<Book | null>(null);
+  const itemsPerPage = 5;
 
   const handleSort = (field: string) => {
-    const order = sortField === field && sortOrder === 'asc' ? 'desc' : 'asc'
-    setSortField(field)
-    setSortOrder(order)
+    const order = sortField === field && sortOrder === 'asc' ? 'desc' : 'asc';
+    setSortField(field);
+    setSortOrder(order);
     books.sort((a, b) => {
-      const aValue = a[field as keyof Book]
-      const bValue = b[field as keyof Book]
+      const aValue = a[field as keyof Book];
+      const bValue = b[field as keyof Book];
       if (aValue && bValue) {
-        // Ensure both values are defined
         if (aValue < bValue) {
-          return order === 'asc' ? -1 : 1
+          return order === 'asc' ? -1 : 1;
         }
         if (aValue > bValue) {
-          return order === 'asc' ? 1 : -1
+          return order === 'asc' ? 1 : -1;
         }
       }
-      return 0
-    })
-  }
+      return 0;
+    });
+  };
 
   const handleSearch = (book: Book) => {
     if (searchColumn === 'all') {
-      return Object.values(book).some(value =>
+      return Object.values(book).some((value) =>
         value.toString().toLowerCase().includes(searchTerm.toLowerCase())
-      )
+      );
     }
     return book[searchColumn as keyof Book]
       ?.toString()
       .toLowerCase()
-      .includes(searchTerm.toLowerCase())
-  }
+      .includes(searchTerm.toLowerCase());
+  };
 
   const handleFilter = (book: Book) => {
     const matchesSubjects =
       filters.subjects.length === 0 ||
       filters.subjects.some((subject: string) =>
         book.typeTopic.includes(subject)
-      )
+      );
     const matchesYearRange =
       parseInt(book.publish_date) >= filters.yearRange[0] &&
-      parseInt(book.publish_date) <= filters.yearRange[1]
-    const matchesAuthorPrefix = book.authors.some(author =>
+      parseInt(book.publish_date) <= filters.yearRange[1];
+    const matchesAuthorPrefix = book.authors.some((author) =>
       author.toLowerCase().startsWith(filters.authorPrefix.toLowerCase())
-    )
-    return matchesSubjects && matchesYearRange && matchesAuthorPrefix
-  }
+    );
+    return matchesSubjects && matchesYearRange && matchesAuthorPrefix;
+  };
 
   const filteredBooks = books.filter(
-    book => handleSearch(book) && handleFilter(book)
-  )
+    (book) => handleSearch(book) && handleFilter(book)
+  );
 
-  const totalPages = Math.ceil(filteredBooks.length / itemsPerPage)
+  const totalPages = Math.ceil(filteredBooks.length / itemsPerPage);
+
+  useEffect(() => {
+    if (currentPage > totalPages) {
+      setCurrentPage(totalPages);
+    }
+  }, [totalPages, currentPage]);
 
   const displayedBooks = filteredBooks.slice(
     (currentPage - 1) * itemsPerPage,
     currentPage * itemsPerPage
-  )
+  );
 
   const handleAddBook = (newBook: Book) => {
-    setBooks(prevBooks => [...prevBooks, newBook])
-    setIsAddBookModalOpen(false)
-  }
+    setBooks((prevBooks) => [...prevBooks, newBook]);
+    setCurrentPage(1); // Reset to the first page to show the new book
+    setIsAddBookModalOpen(false);
+  };
 
   const handleDeleteBook = (bookId: string) => {
-    setBooks(prevBooks => prevBooks.filter(book => book.id !== bookId))
-  }
+    setBooks((prevBooks) => {
+      const updatedBooks = prevBooks.filter((book) => book.id !== bookId);
+      const totalFilteredBooks = updatedBooks.filter(
+        (book) => handleSearch(book) && handleFilter(book)
+      );
+      const newTotalPages = Math.ceil(totalFilteredBooks.length / itemsPerPage);
+      if (currentPage > newTotalPages) {
+        setCurrentPage(newTotalPages);
+      }
+      return updatedBooks;
+    });
+  };
 
   const confirmDeleteBook = (book: Book) => {
     if (favoriteBooks.has(book.id)) {
-      setBookToDelete(book)
-      setIsConfirmationModalOpen(true)
+      setBookToDelete(book);
+      setIsConfirmationModalOpen(true);
     } else {
-      handleDeleteBook(book.id)
+      handleDeleteBook(book.id);
     }
-  }
+  };
 
   const handleConfirmDelete = () => {
     if (bookToDelete) {
-      handleDeleteBook(bookToDelete.id)
+      handleDeleteBook(bookToDelete.id);
     }
-    setIsConfirmationModalOpen(false)
-    setBookToDelete(null)
-  }
+    setIsConfirmationModalOpen(false);
+    setBookToDelete(null);
+  };
+
+  const noBooksFoundMessage = (
+    <div className='no-results'>
+      No books found...
+      <button
+        className='add-book-button-inline'
+        onClick={() => setIsAddBookModalOpen(true)}
+      >
+        <BiSolidBookAdd className='add-book-icon-inline' />
+        <h2>But you can always add a new book!</h2>
+      </button>
+    </div>
+  );
+
+  const noBooksInListMessage = (
+    <div className='no-results'>
+      No books in the list.
+      <button
+        className='add-book-button-inline'
+        onClick={() => setIsAddBookModalOpen(true)}
+      >
+        <BiSolidBookAdd className='add-book-icon-inline' />
+        Add Book
+      </button>
+    </div>
+  );
 
   return (
     <div className='book-table-container'>
@@ -134,19 +176,25 @@ const BookTable: React.FC<BookTableProps> = ({
           onSearchTermChange={setSearchTerm}
           onSearchColumnChange={setSearchColumn}
         />
-        <button
-          className='add-book-button'
-          onClick={() => setIsAddBookModalOpen(true)}
-        >
-          <BiSolidBookAdd className='add-book-icon' />
-        </button>
-        {displayedBooks.length > 0 ? (
+        {books.length > 0 && displayedBooks.length > 0 && (
+          <button
+            className='add-book-button'
+            onClick={() => setIsAddBookModalOpen(true)}
+          >
+            <BiSolidBookAdd className='add-book-icon' />
+          </button>
+        )}
+        {books.length === 0 ? (
+          noBooksInListMessage
+        ) : displayedBooks.length === 0 ? (
+          noBooksFoundMessage
+        ) : (
           <>
             <BookTableContent
               books={displayedBooks}
               onBookSelect={onBookSelect}
               toggleFavorite={toggleFavorite}
-              deleteBook={confirmDeleteBook} // Pass confirmDeleteBook function as a prop
+              deleteBook={confirmDeleteBook}
               favoriteBooks={favoriteBooks}
               handleSort={handleSort}
               sortField={sortField}
@@ -158,10 +206,6 @@ const BookTable: React.FC<BookTableProps> = ({
               onPageChange={setCurrentPage}
             />
           </>
-        ) : (
-          <div className='no-results'>
-            No results found. Please try with different filters.
-          </div>
         )}
         {isAddBookModalOpen && (
           <AddBookModal
@@ -178,7 +222,10 @@ const BookTable: React.FC<BookTableProps> = ({
         />
       </div>
     </div>
-  )
-}
+  );
+};
 
-export default BookTable
+export default BookTable;
+
+
+

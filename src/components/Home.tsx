@@ -55,7 +55,7 @@ const Home: React.FC = () => {
           favoriteBooks={favoriteBooks}
         />
       ) : (
-        <div>No books found.</div>
+        <div className='no-results'>No books found.</div>
       )}
       {isModalOpen && (
         <ModalBook isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} book={selectedBook} />

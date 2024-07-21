@@ -18,7 +18,6 @@ const AddBookModal: React.FC<Props> = ({ isOpen, onClose, onAddBook }) => {
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [searchType, setSearchType] = useState<string>('isbn');
   const [showExamples, setShowExamples] = useState<boolean>(true);
-  const [selectedIsbn, setSelectedIsbn] = useState<string>('');
   const [filteredBooks, setFilteredBooks] = useState<any[]>([]); // New state for raw API response data
 
   const fetchBooksData = async (query: string) => {
@@ -32,7 +31,6 @@ const AddBookModal: React.FC<Props> = ({ isOpen, onClose, onAddBook }) => {
       const filteredBooks = response.data.docs;
       setFilteredBooks(filteredBooks); // Store raw API response data
       setBooks(filteredBooks);
-      setSelectedIsbn(isbns[0]);
       setIsLoading(false);
     } catch (error) {
       console.error('Failed to fetch books:', error);
@@ -45,12 +43,14 @@ const AddBookModal: React.FC<Props> = ({ isOpen, onClose, onAddBook }) => {
     setShowExamples(false);
   };
 
-  const handleSelectBook = async (book: Book) => {
-    if (selectedIsbn) {
-      const detailedBooks = await fetchBooks([selectedIsbn]);
+  const handleSelectBook = async (selectedBook: any) => {
+    try {
+      const detailedBooks = await fetchBooks([selectedBook.isbn[0]]);
       if (detailedBooks.length > 0) {
         onAddBook(detailedBooks[0]);
       }
+    } catch (error) {
+      console.error('Failed to fetch detailed book information:', error);
     }
     onClose();
   };
@@ -184,7 +184,7 @@ const AddBookModal: React.FC<Props> = ({ isOpen, onClose, onAddBook }) => {
               <>
                 <ul className='results-dropdown'>
                   {filteredBooks.map(book => (
-                    <li onClick={() => handleSelectBook(book)}>
+                    <li key={book.key} onClick={() => handleSelectBook(book)}>
                       {book.title} by {book.author_name?.join(', ')}
                     </li>
                   ))}
