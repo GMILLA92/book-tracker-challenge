@@ -29,10 +29,10 @@ export const BookProvider: React.FC<BookProviderProps> = ({ children }) => {
   const [isLoading, setIsLoading] = useState(true)
   const predefinedIsbns = [
     '0451526538',
-    '0140449132',
     '067978327X',
-    '0201558025',
+    '2253004464',
     '9780743273565',
+    '9780192834133',
     '9780061120084',
     '9781400033416',
     '9781451673319',
@@ -40,16 +40,13 @@ export const BookProvider: React.FC<BookProviderProps> = ({ children }) => {
     '9780679732761',
     '9780439139601',
     '9780743272933',
-    '9780452284241',
     '9780345803481',
-    '9780545010221',
+    '9781943138425',
     '9780261103573',
     '9780618002238',
-    '9780618002245',
+    '0679406417',
     '9780062315007',
     '9780525559474',
-    '9788408156745',
-    '9780802123981'
   ]
 
   const loadBooks = async (isbnList: string[]) => {
@@ -67,6 +64,7 @@ export const BookProvider: React.FC<BookProviderProps> = ({ children }) => {
           : 'Unknown'
       }))
       setBooks(qualityCheckedBooks as Book[])
+      console.log(books)
     } catch (error) {
       console.error('Failed to fetch books:', error)
     } finally {

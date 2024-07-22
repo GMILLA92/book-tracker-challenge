@@ -24,7 +24,7 @@ interface FilterSidebarProps {
 const FilterSidebar: React.FC<FilterSidebarProps> = ({ onFilterChange }) => {
   const [selectedSubjects, setSelectedSubjects] = useState<string[]>([]);
   const [yearRange, setYearRange] = useState<[number, number]>([
-    1900,
+    1700,
     new Date().getFullYear()
   ]);
   const [authorPrefix, setAuthorPrefix] = useState<string>('');
@@ -51,9 +51,9 @@ const FilterSidebar: React.FC<FilterSidebarProps> = ({ onFilterChange }) => {
   const handleFilterReset = () => {
     // Reset all filters to their default values
     setSelectedSubjects([]);
-    setYearRange([1900, new Date().getFullYear()]);
+    setYearRange([1700, new Date().getFullYear()]);
     setAuthorPrefix('');
-    onFilterChange({ subjects: [], yearRange: [1900, new Date().getFullYear()], authorPrefix: '' });
+    onFilterChange({ subjects: [], yearRange: [1700, new Date().getFullYear()], authorPrefix: '' });
   };
 
   return (

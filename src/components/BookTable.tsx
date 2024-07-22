@@ -31,7 +31,7 @@ const BookTable: React.FC<BookTableProps> = ({
   const [searchColumn, setSearchColumn] = useState<string>('all');
   const [filters, setFilters] = useState<any>({
     subjects: [],
-    yearRange: [1900, new Date().getFullYear()],
+    yearRange: [1700, new Date().getFullYear()],
     authorPrefix: '',
   });
   const [isAddBookModalOpen, setIsAddBookModalOpen] = useState(false);
@@ -59,33 +59,38 @@ const BookTable: React.FC<BookTableProps> = ({
   };
 
   const handleSearch = (book: Book) => {
+    if (searchTerm === '') return true;
     if (searchColumn === 'all') {
       return Object.values(book).some((value) =>
-        value.toString().toLowerCase().includes(searchTerm.toLowerCase())
+        value ? value.toString().toLowerCase().includes(searchTerm.toLowerCase()) : false
       );
     }
-    return book[searchColumn as keyof Book]
-      ?.toString()
-      .toLowerCase()
-      .includes(searchTerm.toLowerCase());
+    const bookValue = book[searchColumn as keyof Book];
+    return bookValue ? bookValue.toString().toLowerCase().includes(searchTerm.toLowerCase()) : false;
   };
-
+  
   const handleFilter = (book: Book) => {
-    const matchesSubjects =
-      filters.subjects.length === 0 ||
-      filters.subjects.some((subject: string) =>
-        book.typeTopic.includes(subject)
-      );
-    const matchesYearRange =
-      parseInt(book.publish_date) >= filters.yearRange[0] &&
-      parseInt(book.publish_date) <= filters.yearRange[1];
-    const matchesAuthorPrefix = book.authors.some((author) =>
+    const typeTopic = book.typeTopic || '';
+    const publishDate = parseInt(book.publish_date || '0');
+    const authors = book.authors || [];
+    
+    const matchesSubjects = filters.subjects.length === 0 || filters.subjects.some((subject: string) =>
+      typeTopic.includes(subject)
+    );
+    
+    const matchesYearRange = publishDate >= filters.yearRange[0] && publishDate <= filters.yearRange[1];
+    console.log(matchesYearRange)
+
+    const matchesAuthorPrefix = authors.some((author) =>
       author.toLowerCase().startsWith(filters.authorPrefix.toLowerCase())
     );
+    
     return matchesSubjects && matchesYearRange && matchesAuthorPrefix;
   };
-
+  
+  console.log(books)
   const filteredBooks = books.filter(
+    
     (book) => handleSearch(book) && handleFilter(book)
   );
 
@@ -104,7 +109,6 @@ const BookTable: React.FC<BookTableProps> = ({
 
   const handleAddBook = (newBook: Book) => {
     setBooks((prevBooks) => [...prevBooks, newBook]);
-    setCurrentPage(1); // Reset to the first page to show the new book
     setIsAddBookModalOpen(false);
   };
 
@@ -226,6 +230,3 @@ const BookTable: React.FC<BookTableProps> = ({
 };
 
 export default BookTable;
-
-
-

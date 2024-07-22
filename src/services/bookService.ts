@@ -28,6 +28,8 @@ export const fetchBooks = async (isbnList: string[]) => {
     fetchBookDetails(isbnList)
   ]);
 
+
+
   const books = isbnList.map(isbn => {
     const key = `ISBN:${isbn}`;
     const data = dataResponse[key] || {};
