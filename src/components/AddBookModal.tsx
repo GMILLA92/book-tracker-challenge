@@ -1,8 +1,10 @@
+import './AddBookModal.css'
 import axios from 'axios'
 import React, { useState } from 'react'
 import { FaSearch } from 'react-icons/fa'
 import { fetchBooks } from '../services/bookService'
 import { Book } from '../types'
+
 
 interface Props {
   onClose: () => void

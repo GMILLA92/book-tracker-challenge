@@ -1,7 +1,7 @@
-// src/components/ModalBook.tsx
 import React from 'react'
 import { FaTimes } from 'react-icons/fa'
 import './ModalBook.css'
+import './Search.css'
 import { Book } from '../types'
 
 // In answer to the suggested requirement "show one item from the table and display it in a showcase format."

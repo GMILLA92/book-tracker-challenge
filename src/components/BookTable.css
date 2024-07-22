@@ -25,6 +25,10 @@
   margin-top: 40px;
 }
 
+.text-center svg:hover{
+  color: white;
+}
+
 .add-book-button-inline {
   color: var(--color-grey-blue-dark);
   display: flex;
@@ -59,7 +63,7 @@
 }
 
 .text-center svg {
-  font-size: 24px;
+  font-size: 19px;
 }
 
 tbody tr:hover {
