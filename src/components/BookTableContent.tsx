@@ -1,19 +1,13 @@
 import React, { useEffect, useState } from 'react';
 import { Book } from '../types';
-import {
-  FaStar,
-  FaRegStar,
-  FaSort,
-  FaSortUp,
-  FaSortDown
-} from 'react-icons/fa';
+import { FaStar, FaRegStar, FaSort, FaSortUp, FaSortDown } from 'react-icons/fa';
 import { RiDeleteBin5Line } from 'react-icons/ri';
 
 interface BookTableContentProps {
   books: Book[];
   onBookSelect: (book: Book) => void;
   toggleFavorite: (bookId: string) => void;
-  deleteBook: (book: Book) => void; // Updated prop for deleting a book
+  deleteBook: (book: Book) => void;
   favoriteBooks: Set<string>;
   handleSort: (field: string) => void;
   sortField: string | null;
@@ -30,6 +24,7 @@ const BookTableContent: React.FC<BookTableContentProps> = ({
   sortField,
   sortOrder
 }) => {
+  // Determining the sorting indicator based on the sort field and the order
   const getSortingIndicator = (field: string) => {
     if (sortField === field) {
       return sortOrder === 'asc' ? <FaSortUp /> : <FaSortDown />;
@@ -43,7 +38,6 @@ const BookTableContent: React.FC<BookTableContentProps> = ({
     const handleResize = () => setIsMobile(window.innerWidth <= 750);
     window.addEventListener('resize', handleResize);
     return () => window.removeEventListener('resize', handleResize);
- 
   }, []);
 
   return (
@@ -65,7 +59,7 @@ const BookTableContent: React.FC<BookTableContentProps> = ({
                     {favoriteBooks.has(book.id) ? <FaStar /> : <FaRegStar />}
                   </div>
                   <div className="delete-icon" onClick={e => { e.stopPropagation(); deleteBook(book); }}>
-                    <RiDeleteBin5Line />
+                    <RiDeleteBin5Line data-testid={`delete-button-${book.id}`} />
                   </div>
                 </div>
               </div>
@@ -86,18 +80,12 @@ const BookTableContent: React.FC<BookTableContentProps> = ({
                     Authors {getSortingIndicator('authors')}
                   </div>
                 </th>
-                <th
-                  onClick={() => handleSort('publish_date')}
-                  className="cursor-pointer publish-date-column"
-                >
+                <th onClick={() => handleSort('publish_date')} className="cursor-pointer publish-date-column">
                   <div className="flex items-center justify-between">
                     Publish Date {getSortingIndicator('publish_date')}
                   </div>
                 </th>
-                <th
-                  onClick={() => handleSort('typeTopic')}
-                  className="cursor-pointer"
-                >
+                <th onClick={() => handleSort('typeTopic')} className="cursor-pointer">
                   <div className="flex items-center justify-between">
                     Type/Topic {getSortingIndicator('typeTopic')}
                   </div>
@@ -108,48 +96,25 @@ const BookTableContent: React.FC<BookTableContentProps> = ({
             </thead>
             <tbody>
               {books.map((book, index) => (
-                <tr
-                  key={index}
-                  onClick={() => onBookSelect(book)}
-                >
+                <tr key={index} onClick={() => onBookSelect(book)}>
                   <td className="text-center">
                     <div className="img-container">
-                      <img
-                        src={book.coverImage}
-                        alt={`${book.title} cover`}
-                        className="w-full h-full object-contain"
-                      />
+                      <img src={book.coverImage} alt={`${book.title} cover`} className="w-full h-full object-contain" />
                     </div>
                   </td>
                   <td className="text-base">{book.title}</td>
-                  <td className="text-base">{book.authors.join(', ')}</td>
-                  <td className="text-base publish-date-column">
-                    {book.publish_date}
-                  </td>
-                  <td className="whitespace-normal break-words text-base">
-                    {book.typeTopic}
-                  </td>
-                  <td
-                    className="text-center"
-                    onClick={e => {
-                      e.stopPropagation();
-                      toggleFavorite(book.id);
-                    }}
-                  >
+                  <td className="text-base">{book.authors.join(', ') || 'Authors:'}</td>
+                  <td className="text-base publish-date-column">{book.publish_date}</td>
+                  <td className="whitespace-normal break-words text-base">{book.typeTopic}</td>
+                  <td className="text-center" onClick={e => { e.stopPropagation(); toggleFavorite(book.id); }}>
                     {favoriteBooks.has(book.id) ? (
-                      <FaStar className="favorite text-base" />
+                      <FaStar className="favorite text-base" data-testid={`favorite-button-${book.id}`} />
                     ) : (
-                      <FaRegStar className="favorite text-base" />
+                      <FaRegStar className="favorite text-base" data-testid={`favorite-button-${book.id}`} />
                     )}
                   </td>
-                  <td
-                    className="text-center"
-                    onClick={e => {
-                      e.stopPropagation();
-                      deleteBook(book); // Pass the whole book object
-                    }}
-                  >
-                    <RiDeleteBin5Line className="delete-icon text-base cursor-pointer" />
+                  <td className="text-center" onClick={e => { e.stopPropagation(); deleteBook(book); }}>
+                    <RiDeleteBin5Line className="delete-icon text-base cursor-pointer" data-testid={`delete-button-${book.id}`} />
                   </td>
                 </tr>
               ))}

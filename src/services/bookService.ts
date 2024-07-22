@@ -1,5 +1,6 @@
 import axios from 'axios';
 import { filterSubjects } from '../utils/filterSubjects';
+import { Book } from '../types';
 const BASE_URL = 'https://openlibrary.org/api/books';
 const placeholderImage = process.env.PUBLIC_URL + '/no-photo.png';
 
@@ -21,14 +22,13 @@ export const fetchBookDetails = async (isbnList: string[]) => {
   });
 };
 
-// Combined function to fetch and merge both data and details
+// Combined function to fetch and merge both data and details.
+// I wanted to show both information and there is not a unique call available in this API.
 export const fetchBooks = async (isbnList: string[]) => {
   const [dataResponse, detailsResponse] = await Promise.all([
     fetchBookData(isbnList),
     fetchBookDetails(isbnList)
   ]);
-
-
 
   const books = isbnList.map(isbn => {
     const key = `ISBN:${isbn}`;
@@ -47,11 +47,19 @@ export const fetchBooks = async (isbnList: string[]) => {
     let publish_date = (details.publish_date || data.publish_date || '').replace(/\D/g, '').slice(0, 4);
     publish_date = publish_date || 'Unknown';
 
+    // Validate title and authors
+    const title = details.title || data.title || 'Unknown Title';
+    const authors = details.authors?.map((author: { name: any }) => author.name) || data.authors?.map((author: { name: any }) => author.name) || ['Unknown'];
+
+    if (!title || title === 'Unknown Title' || authors.length === 0 || authors[0] === 'Unknown') {
+      return null; // Skip invalid books
+    }
+
     return {
       id: key,
       isbn: isbn,
-      title: details.title || data.title || 'Unknown Title',
-      authors: details.authors?.map((author: { name: any }) => author.name) || data.authors?.map((author: { name: any }) => author.name) || ['Unknown'],
+      title: title,
+      authors: authors,
       publish_date: publish_date,
       description: details.by_statement || data.description || 'No description available.',
       coverImage: data.cover?.medium || placeholderImage,
@@ -60,15 +68,19 @@ export const fetchBooks = async (isbnList: string[]) => {
       number_of_pages: details.number_of_pages || data.number_of_pages || 'Not available',
       language: (details.languages || data.languages)?.map((lang: { key: string }) => lang.key.replace('/languages/', '')).join(', ') || 'Unknown'
     };
-  });
+  }).filter(book => book !== null) as Book[]; // Filter out invalid books and cast to Book[] type
 
   // Preload images
   const imagePromises = books.map(book => {
-    return new Promise((resolve, reject) => {
-      const img = new Image();
-      img.src = book.coverImage;
-      img.onload = resolve;
-      img.onerror = resolve; // Resolve even if the image fails to load
+    return new Promise<void>((resolve, reject) => { 
+      if (book) {
+        const img = new Image();
+        img.src = book.coverImage;
+        img.onload = () => resolve();
+        img.onerror = () => resolve();
+      } else {
+        resolve();
+      }
     });
   });
 

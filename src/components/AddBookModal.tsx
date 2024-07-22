@@ -1,7 +1,5 @@
-import './ModalBook.css'
-import './AddBookModal.css'
-import React, { useState } from 'react'
 import axios from 'axios'
+import React, { useState } from 'react'
 import { FaSearch } from 'react-icons/fa'
 import { fetchBooks } from '../services/bookService'
 import { Book } from '../types'
@@ -18,20 +16,19 @@ const AddBookModal: React.FC<Props> = ({ isOpen, onClose, onAddBook }) => {
   const [isLoading, setIsLoading] = useState<boolean>(false)
   const [searchType, setSearchType] = useState<string>('isbn')
   const [showExamples, setShowExamples] = useState<boolean>(true)
-  const [filteredBooks, setFilteredBooks] = useState<any[]>([]) // New state for raw API response data
+  const [filteredBooks, setFilteredBooks] = useState<any[]>([])
 
   const fetchBooksData = async (query: string) => {
-    if (!query) return
-    setIsLoading(true)
+    if (!query) return // Doing nothing if the query is empty-null
+    setIsLoading(true) // Trigger loading div
     try {
       const isbns = query.split(',').map(isbn => isbn.trim())
       const response = await axios.get(
         `https://openlibrary.org/search.json?${searchType}=${isbns.join(',')}`
       )
 
-      const filteredBooks = response.data.docs
-      setFilteredBooks(filteredBooks) // Store raw API response data
-      books.push(filteredBooks)
+      const fetchedBooks = response.data.docs
+      setFilteredBooks(fetchedBooks)
       setIsLoading(false)
     } catch (error) {
       console.error('Failed to fetch books:', error)
@@ -47,8 +44,7 @@ const AddBookModal: React.FC<Props> = ({ isOpen, onClose, onAddBook }) => {
   const handleSelectBook = async (selectedBook: any) => {
     try {
       const detailedBooks = await fetchBooks([selectedBook.isbn[0]])
-      console.log(detailedBooks)
-      if (detailedBooks.length > 0) {
+      if (detailedBooks.length > 0 && detailedBooks[0]) {
         onAddBook(detailedBooks[0])
       }
     } catch (error) {
@@ -61,7 +57,7 @@ const AddBookModal: React.FC<Props> = ({ isOpen, onClose, onAddBook }) => {
     const value = e.target.value
     const isChecked = e.target.checked
 
-    // Uncheck all other checkboxes
+    // Uncheck the rest of checkboxes
     document
       .querySelectorAll<HTMLInputElement>(
         '.query-examples input[type="checkbox"]'
@@ -72,7 +68,6 @@ const AddBookModal: React.FC<Props> = ({ isOpen, onClose, onAddBook }) => {
         }
       })
 
-    // Update the input value
     if (isChecked) {
       setInput(value)
     } else {
@@ -94,7 +89,7 @@ const AddBookModal: React.FC<Props> = ({ isOpen, onClose, onAddBook }) => {
       })
   }
 
-  if (!isOpen) return null
+  if (!isOpen) return null // Don't render if the modal is not open
 
   return (
     <div className='modal-overlay'>
@@ -118,10 +113,17 @@ const AddBookModal: React.FC<Props> = ({ isOpen, onClose, onAddBook }) => {
               onChange={handleInputChange}
               className='modal-input'
             />
-            <button onClick={handleSearch} className='search-button'>
+            <button
+              onClick={handleSearch}
+              className='search-button'
+              aria-label='search'
+              data-testid='search-button'
+            >
               <FaSearch />
             </button>
           </div>
+
+          {/* Some examples I decided to put in the user interface so that users can test how to add a book easily */}
           {showExamples && (
             <div className='query-examples'>
               <h4>EXAMPLES</h4>
@@ -164,6 +166,7 @@ const AddBookModal: React.FC<Props> = ({ isOpen, onClose, onAddBook }) => {
           )}
           {isLoading ? (
             <div className='lds-default'>
+              <div></div>
               <div></div>
               <div></div>
               <div></div>

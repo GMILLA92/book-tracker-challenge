@@ -87,3 +87,16 @@
   }
 }
 
+
+.error-message{
+  text-align: center;
+  color: var(--color-orange-red-error);
+  font-size: 18px;
+  font-weight: bold;
+  margin-top: 100px;
+  animation: bounceInUp 1s ease-in-out;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+}
