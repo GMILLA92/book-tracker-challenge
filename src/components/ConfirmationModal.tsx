@@ -7,6 +7,7 @@ interface ConfirmationModalProps {
   message: string;
 }
 
+// Modal to confirm with the user that they want to proceed before deleting a book that have been added to their saved books.
 const ConfirmationModal: React.FC<ConfirmationModalProps> = ({
   isOpen,
   onClose,

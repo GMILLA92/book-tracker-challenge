@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { Book } from '../types'
 import BookTableContent from './BookTableContent'
 import Search from './Search'
@@ -31,7 +31,7 @@ const BookTable: React.FC<BookTableProps> = ({
   const [searchColumn, setSearchColumn] = useState<string>('all')
   const [filters, setFilters] = useState<any>({
     subjects: [],
-    yearRange: [1900, new Date().getFullYear()],
+    yearRange: [1700, new Date().getFullYear()],
     authorPrefix: ''
   })
   const [isAddBookModalOpen, setIsAddBookModalOpen] = useState(false)
@@ -47,7 +47,6 @@ const BookTable: React.FC<BookTableProps> = ({
       const aValue = a[field as keyof Book]
       const bValue = b[field as keyof Book]
       if (aValue && bValue) {
-        // Ensure both values are defined
         if (aValue < bValue) {
           return order === 'asc' ? -1 : 1
         }
@@ -60,29 +59,36 @@ const BookTable: React.FC<BookTableProps> = ({
   }
 
   const handleSearch = (book: Book) => {
+    if (searchTerm === '') return true
     if (searchColumn === 'all') {
       return Object.values(book).some(value =>
-        value.toString().toLowerCase().includes(searchTerm.toLowerCase())
+        value
+          ? value.toString().toLowerCase().includes(searchTerm.toLowerCase())
+          : false
       )
     }
-    return book[searchColumn as keyof Book]
-      ?.toString()
-      .toLowerCase()
-      .includes(searchTerm.toLowerCase())
+    const bookValue = book[searchColumn as keyof Book]
+    return bookValue
+      ? bookValue.toString().toLowerCase().includes(searchTerm.toLowerCase())
+      : false
   }
 
   const handleFilter = (book: Book) => {
+    const typeTopic = book.typeTopic || ''
+    const publishDate = parseInt(book.publish_date || '0')
+    const authors = book.authors || []
+
     const matchesSubjects =
       filters.subjects.length === 0 ||
-      filters.subjects.some((subject: string) =>
-        book.typeTopic.includes(subject)
-      )
+      filters.subjects.some((subject: string) => typeTopic.includes(subject))
+
     const matchesYearRange =
-      parseInt(book.publish_date) >= filters.yearRange[0] &&
-      parseInt(book.publish_date) <= filters.yearRange[1]
-    const matchesAuthorPrefix = book.authors.some(author =>
+      publishDate >= filters.yearRange[0] && publishDate <= filters.yearRange[1]
+
+    const matchesAuthorPrefix = authors.some(author =>
       author.toLowerCase().startsWith(filters.authorPrefix.toLowerCase())
     )
+
     return matchesSubjects && matchesYearRange && matchesAuthorPrefix
   }
 
@@ -90,22 +96,42 @@ const BookTable: React.FC<BookTableProps> = ({
     book => handleSearch(book) && handleFilter(book)
   )
 
+  // Pagination of books
   const totalPages = Math.ceil(filteredBooks.length / itemsPerPage)
+
+  // Updating the current page if the total pages change
+  useEffect(() => {
+    if (currentPage > totalPages) {
+      setCurrentPage(totalPages)
+    }
+  }, [totalPages, currentPage])
 
   const displayedBooks = filteredBooks.slice(
     (currentPage - 1) * itemsPerPage,
     currentPage * itemsPerPage
   )
 
+   // Function to handle adding a new book to the list
   const handleAddBook = (newBook: Book) => {
     setBooks(prevBooks => [...prevBooks, newBook])
     setIsAddBookModalOpen(false)
   }
 
   const handleDeleteBook = (bookId: string) => {
-    setBooks(prevBooks => prevBooks.filter(book => book.id !== bookId))
+    setBooks(prevBooks => {
+      const updatedBooks = prevBooks.filter(book => book.id !== bookId)
+      const totalFilteredBooks = updatedBooks.filter(
+        book => handleSearch(book) && handleFilter(book)
+      )
+      const newTotalPages = Math.ceil(totalFilteredBooks.length / itemsPerPage)
+      if (currentPage > newTotalPages) {
+        setCurrentPage(newTotalPages)
+      }
+      return updatedBooks
+    })
   }
 
+   // Function to confirm the deletion of a book
   const confirmDeleteBook = (book: Book) => {
     if (favoriteBooks.has(book.id)) {
       setBookToDelete(book)
@@ -123,6 +149,32 @@ const BookTable: React.FC<BookTableProps> = ({
     setBookToDelete(null)
   }
 
+  const noBooksFoundMessage = (
+    <div className='no-results'>
+      No books found...
+      <button
+        className='add-book-button-inline'
+        onClick={() => setIsAddBookModalOpen(true)}
+      >
+        <BiSolidBookAdd className='add-book-icon-inline' />
+        <h2>But you can always add a new book!</h2>
+      </button>
+    </div>
+  )
+
+  const noBooksInListMessage = (
+    <div className='no-results'>
+      No books in the list.
+      <button
+        className='add-book-button-inline'
+        onClick={() => setIsAddBookModalOpen(true)}
+      >
+        <BiSolidBookAdd className='add-book-icon-inline' />
+        Add Book
+      </button>
+    </div>
+  )
+
   return (
     <div className='book-table-container'>
       <FilterSidebar onFilterChange={setFilters} />
@@ -134,19 +186,26 @@ const BookTable: React.FC<BookTableProps> = ({
           onSearchTermChange={setSearchTerm}
           onSearchColumnChange={setSearchColumn}
         />
-        <button
-          className='add-book-button'
-          onClick={() => setIsAddBookModalOpen(true)}
-        >
-          <BiSolidBookAdd className='add-book-icon' />
-        </button>
-        {displayedBooks.length > 0 ? (
+        {books.length > 0 && displayedBooks.length > 0 && (
+          <button
+            className='add-book-button'
+            onClick={() => setIsAddBookModalOpen(true)}
+            aria-label='Add Book'
+          >
+            <BiSolidBookAdd className='add-book-icon' />
+          </button>
+        )}
+        {books.length === 0 ? (
+          noBooksInListMessage
+        ) : displayedBooks.length === 0 ? (
+          noBooksFoundMessage
+        ) : (
           <>
             <BookTableContent
               books={displayedBooks}
               onBookSelect={onBookSelect}
               toggleFavorite={toggleFavorite}
-              deleteBook={confirmDeleteBook} // Pass confirmDeleteBook function as a prop
+              deleteBook={confirmDeleteBook}
               favoriteBooks={favoriteBooks}
               handleSort={handleSort}
               sortField={sortField}
@@ -158,10 +217,6 @@ const BookTable: React.FC<BookTableProps> = ({
               onPageChange={setCurrentPage}
             />
           </>
-        ) : (
-          <div className='no-results'>
-            No results found. Please try with different filters.
-          </div>
         )}
         {isAddBookModalOpen && (
           <AddBookModal

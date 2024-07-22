@@ -1,6 +1,7 @@
-import React, { useState } from 'react';
-import './FilterSidebar.css';
+import React, { useState } from 'react'
+import './FilterSidebar.css'
 
+// Subjects I decided to show in my app as type of books
 const subjects = [
   'Fiction',
   'Non-Fiction',
@@ -15,46 +16,53 @@ const subjects = [
   'Thriller',
   'Adventure',
   'Classic'
-];
+]
 
 interface FilterSidebarProps {
-  onFilterChange: (filters: any) => void;
+  onFilterChange: (filters: any) => void
 }
 
+// I decided to put a limit in the range of years. 
+//If a book publication year is out of the range 1700-2024 it will not be included to the list of our books.
 const FilterSidebar: React.FC<FilterSidebarProps> = ({ onFilterChange }) => {
-  const [selectedSubjects, setSelectedSubjects] = useState<string[]>([]);
+  const [selectedSubjects, setSelectedSubjects] = useState<string[]>([])
   const [yearRange, setYearRange] = useState<[number, number]>([
-    1900,
+    1700,
     new Date().getFullYear()
-  ]);
-  const [authorPrefix, setAuthorPrefix] = useState<string>('');
+  ])
+  const [authorPrefix, setAuthorPrefix] = useState<string>('')
 
   const handleSubjectChange = (subject: string) => {
     setSelectedSubjects(prev =>
-      prev.includes(subject) ? prev.filter(s => s !== subject) : [...prev, subject]
-    );
-  };
+      prev.includes(subject)
+        ? prev.filter(s => s !== subject)
+        : [...prev, subject]
+    )
+  }
 
   const handleYearRangeChange = (
     event: React.ChangeEvent<HTMLInputElement>,
     index: number
   ) => {
-    const newRange = [...yearRange] as [number, number];
-    newRange[index] = parseInt(event.target.value, 10);
-    setYearRange(newRange);
-  };
+    const newRange = [...yearRange] as [number, number]
+    newRange[index] = parseInt(event.target.value, 10)
+    setYearRange(newRange)
+  }
 
   const handleFilterApply = () => {
-    onFilterChange({ subjects: selectedSubjects, yearRange, authorPrefix });
-  };
+    onFilterChange({ subjects: selectedSubjects, yearRange, authorPrefix })
+  }
 
   const handleFilterReset = () => {
-    // Reset all filters to their default values
-    setSelectedSubjects([]);
-    setYearRange([1900, new Date().getFullYear()]);
-    setAuthorPrefix('');
-    onFilterChange({ subjects: [], yearRange: [1900, new Date().getFullYear()], authorPrefix: '' });
-  };
+    setSelectedSubjects([])
+    setYearRange([1700, new Date().getFullYear()])
+    setAuthorPrefix('')
+    onFilterChange({
+      subjects: [],
+      yearRange: [1700, new Date().getFullYear()],
+      authorPrefix: ''
+    })
+  }
 
   return (
     <div className='filter-sidebar'>
@@ -68,7 +76,9 @@ const FilterSidebar: React.FC<FilterSidebarProps> = ({ onFilterChange }) => {
               checked={selectedSubjects.includes(subject)}
               onChange={() => handleSubjectChange(subject)}
             />
-            <label className="label-filters" htmlFor={subject}>{subject}</label>
+            <label className='label-filters' htmlFor={subject}>
+              {subject}
+            </label>
           </div>
         ))}
       </div>
@@ -76,7 +86,9 @@ const FilterSidebar: React.FC<FilterSidebarProps> = ({ onFilterChange }) => {
       <div className='filter-section'>
         <h4>Year Range</h4>
         <div>
-          <label className="label-years" htmlFor='start-year'>From:</label>
+          <label className='label-years' htmlFor='start-year'>
+            From:
+          </label>
           <input
             type='number'
             id='start-year'
@@ -85,7 +97,9 @@ const FilterSidebar: React.FC<FilterSidebarProps> = ({ onFilterChange }) => {
           />
         </div>
         <div>
-          <label className="label-years" htmlFor='end-year'>To:</label>
+          <label className='label-years' htmlFor='end-year'>
+            To:
+          </label>
           <input
             type='number'
             id='end-year'
@@ -110,12 +124,16 @@ const FilterSidebar: React.FC<FilterSidebarProps> = ({ onFilterChange }) => {
         <button className='button-filters' onClick={handleFilterApply}>
           Apply Filters
         </button>
-        <button className='button-filters' onClick={handleFilterReset} style={{ marginTop: '10px' }}>
+        <button
+          className='button-filters'
+          onClick={handleFilterReset}
+          style={{ marginTop: '10px' }}
+        >
           Reset Filters
         </button>
       </div>
     </div>
-  );
-};
+  )
+}
 
-export default FilterSidebar;
+export default FilterSidebar

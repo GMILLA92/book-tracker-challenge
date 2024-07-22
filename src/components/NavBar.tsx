@@ -3,8 +3,10 @@ import { Link } from 'react-router-dom'
 import { FaHome } from 'react-icons/fa'
 import { BsBookmarkStarFill } from 'react-icons/bs'
 import './NavBar.css'
+import { useBookContext } from '../context/BookContext'
 
 const NavBar: React.FC = () => {
+
   return (
     <nav className='bg-primary p-4'>
       <div className='container-nav mx-auto flex'>
