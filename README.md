@@ -1,46 +1,102 @@
-# Getting Started with Create React App
+# Book Tracker Application
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+## Overview
 
-## Available Scripts
+Welcome to the Book Tracker application! This project is designed to help you keep track of books you're interested in reading, have read, or want to recommend to others. The application provides a user-friendly interface for managing your book list, allowing you to add, search, filter, and save books conveniently.
 
-In the project directory, you can run:
+## Project Details
 
-### `npm start`
+### Technologies Used
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+**React**: For building the user interface.
+**TypeScript**: For type safety and better development experience.
+**Jest**: For unit testing.
+**Tailwind CSS**: For styling the application.
+**Babel**: For transpiling the code.
+**Axios**: For making HTTP requests to the OpenLibrary API.
+**React Icons**: For adding iconography to the application.
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+### Project Structure
 
-### `npm test`
+- src/components: Contains all the React components.
+- src/context: Contains the BookContext for managing state.
+- src/services: Contains bookService.ts for API calls.
+- src/types: Contains TypeScript types.
+- src/utils: Contains utility functions like filtering subjects.
+- public: Contains public assets like the placeholder image.
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+## Features
 
-### `npm run build`
+- **Book List**: Display a list of books with their details.
+- **Search and Filter**: Search by title, author, and filter by subjects, year range, and author prefix.
+- **Add Book**: Add new books using ISBN via the OpenLibrary API.
+- **Save Favorite Books**: Mark books as favorites and view them in a separate section.
+- **Delete Books**: Remove books from the list.
+- **Responsive Design**: The application is responsive and works well on tablets and mobile devices.
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+## Assumptions and Decisions
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+- API Selection: Chose the OpenLibrary API for its extensive database of books.
+- ISBN as Identifier: Used ISBN numbers for API calls as it is a reliable way to identify books.
+- Initial Book List: Loaded an initial set of books using predefined ISBNs to showcase the functionality.
+- Placeholder Image: Used a placeholder image for books without a cover.
+- Book Categories: Defined main subjects to categorize books for better filtering.
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+## Future Enhancements
 
-### `npm run eject`
+- Categorize Saved Books: Add categories like read books, books to read, and books to recommend.
+- Notes Feature: Allow users to add notes to each book.
+- Extended Filtering: Enhance filtering options with more criteria.
+- User Authentication: Add user authentication to save personal book lists.
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+## Installation and Running the Project
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+### Prerequisites
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
+Node.js (version 18 or higher)
+npm or yarn package manager
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
 
-## Learn More
+## Steps to Run the Project
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+1. Clone the Repository
+```
+git clone https://github.com/GMILLA92/digital-hub-challenge
+```
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+```
+cd challenge-digital-hub
+```
+
+2. Install Dependencies
+
+  ```
+yarn install
+   ```
+or
+  ```
+npm install
+   ```
+
+
+3. Start the Application
+
+  ```
+npm start
+   ```
+or
+  ```
+yarn start
+   ```
+
+
+### Testing the Application
+
+```
+npm test
+```
+
+### Authors
+Name: Gemma Milla
+
+
